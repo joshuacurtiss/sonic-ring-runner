@@ -1,5 +1,8 @@
 import kaplay from "kaplay";
 
+const params = new URLSearchParams(window.location.search);
+const debug = params.has('debug');
+
 const k = kaplay({
    width: 1920,
    height: 1080,
@@ -13,7 +16,8 @@ const k = kaplay({
       },
    },
    touchToMouse: true,
-   debug: false,
+   debugKey: '`',
+   debug,
 });
 
 export default k;
