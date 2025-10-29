@@ -3,13 +3,32 @@ import { makeSonic } from '../entities/sonic';
 import { makeMotobug } from '../entities/motobug';
 import { makeRing } from '../entities/ring';
 
+function score(startScore) {
+   let _score = startScore;
+   return {
+      writeScore() {
+         this.text = `Score: ${_score}`;
+      },
+      set score(val) {
+         _score = val;
+         this.writeScore();
+      },
+      get score() {
+         return _score;
+      },
+      add() {
+         this.writeScore();
+      },
+   }
+}
+
 export default function game() {
    k.setGravity(3100);
-   let score = 0;
    let scoreMultiplier = 0;
    const scoreText = k.add([
-      k.text('Score: 0', { size: 72, font: 'mania' }),
+      k.text('', { size: 72, font: 'mania' }),
       k.pos(20, 20),
+      score(0),
    ]);
    const citySfx = k.play('city', { volume: 0.2, loop: true });
    const bgScale = 2;
@@ -37,20 +56,18 @@ export default function game() {
          sonic.jumping = false;
          sonic.jump();
          const scoreInc = 10 * ++scoreMultiplier;
-         score += scoreInc;
-         scoreText.text = `Score: ${score}`;
+         scoreText.score += scoreInc;
          sonic.pointIndicator(`+${scoreInc}`);
          return;
       }
       k.play('hurt', { volume: 0.5 });
-      k.setData('current-score', score);
+      k.setData('current-score', scoreText.score);
       k.go('gameover', citySfx);
    });
    sonic.onCollide('ring', (r)=>{
       k.play('ring', { volume: 0.5 });
       k.destroy(r);
-      score += 1;
-      scoreText.text = `Score: ${score}`;
+      scoreText.score += 1;
       sonic.pointIndicator('+1');
    });
    k.add([
