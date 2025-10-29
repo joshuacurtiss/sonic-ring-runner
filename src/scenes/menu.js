@@ -1,9 +1,11 @@
 import k from '../kaplayCtx'
 import { makeSonic } from '../entities/sonic';
+import { makeRing } from '../entities/ring';
 
 export default function mainMenu() {
    if (!k.getData('best-score')) k.setData('best-score', 0);
    k.onButtonPress('jump', ()=>k.go('game'));
+   const gameSpeed = 2000;
    const bgScale = 2;
    const bgPieceWidth = 1920;
    const bgPieces = [
@@ -17,6 +19,9 @@ export default function mainMenu() {
       k.add([k.sprite('platforms'), k.pos(platformWidth*platformScale, 450), k.scale(platformScale)]),
    ];
    const sonic = makeSonic(k.vec2(bgPieceWidth*2, 745));
+   sonic.onCollide('ring', (r)=>{
+      k.destroy(r);
+   });
    k.add([
       k.text('SONIC RING RUNNER', { size: 96, font: 'mania' }),
       k.pos(k.center().x, 200),
@@ -37,8 +42,19 @@ export default function mainMenu() {
          platforms.push(platforms.shift());
       }
       if (sonic.pos.x>bgPieceWidth+sonic.width*4) sonic.moveTo(-sonic.width*2, sonic.pos.y);
-      bgPieces.forEach(p=>p.move(-100, 0));
-      platforms.forEach(p=>p.move(-2000, 0));
+      bgPieces.forEach(p=>p.move(-gameSpeed/20, 0));
+      platforms.forEach(p=>p.move(-gameSpeed, 0));
       sonic.move(50, 0);
    });
+   const spawnRing = ()=>{
+      const ring = makeRing(k.vec2(1950, 745));
+      ring.onUpdate(()=>{
+         ring.move(-gameSpeed, 0);
+      });
+      ring.onExitScreen(()=>{
+         if (ring.pos.x<0) ring.destroy();
+      });
+      k.wait(k.rand(0.5, 3), spawnRing);
+   }
+   spawnRing();
 }
