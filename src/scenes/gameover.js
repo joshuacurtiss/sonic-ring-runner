@@ -14,8 +14,8 @@ export default function gameOver(citySfx) {
       bestDistance = currentDistance;
    }
 
-   const rankGrades = [ 'F', 'E', 'D', 'C', 'B', 'A', 'S' ];
-   const rankValues = [ 50, 80, 100, 200, 300, 400, 500 ];
+   const rankGrades = [ 'F', 'D-', 'D', 'D+', 'C-', 'C', 'C+', 'B-', 'B', 'B+', 'A-', 'A', 'A+' ];
+   const rankValues = [ 75, 100, 150, 200, 250, 300, 400, 500, 600, 700, 800, 900, 1000 ];
 
    let currentRank = 'F';
    let bestRank = 'F';
