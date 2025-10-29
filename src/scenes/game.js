@@ -1,5 +1,6 @@
 import k from '../kaplayCtx';
 import score from '../abilities/score';
+import { makeMessage } from '../entities/message';
 import { makeSonic } from '../entities/sonic';
 import { makeMotobug } from '../entities/motobug';
 import { makeRing } from '../entities/ring';
@@ -48,7 +49,7 @@ export default function game() {
          sonic.jump();
          const scoreInc = 25 * ++scoreMultiplier;
          scoreText.score += scoreInc;
-         sonic.pointIndicator(`+${scoreInc}`);
+         makeMessage(sonic.pos.sub(0, 80), `+${scoreInc}`);
          return;
       }
       k.play('hurt', { volume: 0.5 });
@@ -60,7 +61,7 @@ export default function game() {
       k.play('ring', { volume: 0.5 });
       k.destroy(r);
       scoreText.score += 5;
-      sonic.pointIndicator('+5');
+      makeMessage(sonic.pos.sub(0, 80), '+5');
    });
    k.add([
       k.rect(bgPieceWidth, 100),
