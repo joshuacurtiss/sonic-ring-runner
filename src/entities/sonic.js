@@ -1,4 +1,5 @@
 import k from "../kaplayCtx";
+import variableJump from "../abilities/variable-jump";
 
 export function makeSonic(pos) {
    return k.add([
@@ -8,23 +9,12 @@ export function makeSonic(pos) {
       k.anchor('center'),
       k.pos(pos),
       k.body({ jumpForce: 1700 }),
+      variableJump(),
       {
-         jumping: false,
-         customJump() {
-            if (this.isGrounded()) {
-               this.play('jump');
-               this.jumping = true;
-               this.jump();
-               k.play('jump', { volume: 0.5 });
-            }
-         },
-         setControls() {
-            k.onButtonPress('jump', this.customJump.bind(this));
-         },
-         setEvents() {
-            this.onGround(()=>{
-               this.play('run');
-               this.jumping = false;
+         add() {
+            k.onButtonPress('jump', ()=>{
+               if (this.isGrounded()) k.play('jump', { volume: 0.5 });
+               this.variableJump();
             });
          },
       }, {

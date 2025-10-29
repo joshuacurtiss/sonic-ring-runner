@@ -37,16 +37,14 @@ export default function game() {
       k.add([k.sprite('platforms'), k.pos(platformWidth*platformScale, 450), k.scale(platformScale)]),
    ];
    const sonic = makeSonic(k.vec2(200, 745));
-   sonic.setControls();
-   sonic.setEvents();
    sonic.onCollide('enemy', (e)=>{
       if (!sonic.isGrounded()) {
          k.play('destroy', { volume: 0.5 });
          k.play('hyper-ring', { volume: 0.5 });
          k.destroy(e);
          sonic.play('jump');
-         // Consider the jump done since this is a bounce off enemy
-         sonic.jumping = false;
+         // Consider the variable jump done since this is a bounce off enemy
+         sonic.endVariableJump();
          sonic.jump();
          const scoreInc = 25 * ++scoreMultiplier;
          scoreText.score += scoreInc;
@@ -92,10 +90,6 @@ export default function game() {
       // Update score/distance based on distance traveled
       scoreText.score += gameSpeed/1000 * k.dt();
       distanceText.score += gameSpeed/500 * k.dt();
-      // If player is jumping, and you let go of jump key, release the jump
-      if (sonic.jumping && !k.isButtonDown('jump') && sonic.vel.y<900) {
-         sonic.vel.y += 33;
-      }
    });
    const spawnMotobug = ()=>{
       const motobug = makeMotobug(k.vec2(1950, 773));
