@@ -9,6 +9,7 @@ export function makeSonic(pos) {
       k.anchor('center'),
       k.pos(pos),
       k.body({ jumpForce: 1700 }),
+      k.offscreen(),
       variableJump(),
       {
          add() {
