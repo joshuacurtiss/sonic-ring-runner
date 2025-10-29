@@ -10,18 +10,22 @@ export function makeSonic(pos) {
       k.body({ jumpForce: 1700 }),
       {
          ringCollectUI: null,
+         jumping: false,
+         customJump() {
+            if (this.isGrounded()) {
+               this.play('jump');
+               this.jumping = true;
+               this.jump();
+               k.play('jump', { volume: 0.5 });
+            }
+         },
          setControls() {
-            k.onButtonPress('jump', ()=>{
-               if (this.isGrounded()) {
-                  this.play('jump');
-                  this.jump();
-                  k.play('jump', { volume: 0.5 });
-               }
-            });
+            k.onButtonPress('jump', this.customJump.bind(this));
          },
          setEvents() {
             this.onGround(()=>{
                this.play('run');
+               this.jumping = false;
             });
          },
       }

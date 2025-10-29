@@ -33,6 +33,8 @@ export default function game() {
          k.play('hyper-ring', { volume: 0.5 });
          k.destroy(e);
          sonic.play('jump');
+         // Consider the jump done since this is a bounce off enemy
+         sonic.jumping = false;
          sonic.jump();
          const scoreInc = 10 * ++scoreMultiplier;
          score += scoreInc;
@@ -78,6 +80,10 @@ export default function game() {
       }
       bgPieces.forEach(p=>p.move(-gameSpeed/20, 0));
       platforms.forEach(p=>p.move(-gameSpeed, 0));
+      // If player is jumping, and you let go of jump key, release the jump
+      if (sonic.jumping && !k.isButtonDown('jump') && sonic.vel.y<900) {
+         sonic.vel.y += 33;
+      }
    });
    const spawnMotobug = ()=>{
       const motobug = makeMotobug(k.vec2(1950, 773));
