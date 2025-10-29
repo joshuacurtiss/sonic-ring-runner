@@ -39,8 +39,7 @@ export default function game() {
          const scoreInc = 10 * ++scoreMultiplier;
          score += scoreInc;
          scoreText.text = `Score: ${score}`;
-         sonic.ringCollectUI.text = `+${scoreInc}`;
-         k.wait(0.5, ()=>{ sonic.ringCollectUI.text = '' });
+         sonic.pointIndicator(`+${scoreInc}`);
          return;
       }
       k.play('hurt', { volume: 0.5 });
@@ -52,8 +51,7 @@ export default function game() {
       k.destroy(r);
       score += 1;
       scoreText.text = `Score: ${score}`;
-      sonic.ringCollectUI.text = `+1`;
-      k.wait(0.5, ()=>{ sonic.ringCollectUI.text = '' });
+      sonic.pointIndicator('+1');
    });
    k.add([
       k.rect(bgPieceWidth, 100),

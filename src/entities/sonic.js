@@ -1,7 +1,7 @@
 import k from "../kaplayCtx";
 
 export function makeSonic(pos) {
-   const sonic = k.add([
+   return k.add([
       k.sprite('sonic', { anim: 'run' }),
       k.scale(4),
       k.area(),
@@ -9,7 +9,6 @@ export function makeSonic(pos) {
       k.pos(pos),
       k.body({ jumpForce: 1700 }),
       {
-         ringCollectUI: null,
          jumping: false,
          customJump() {
             if (this.isGrounded()) {
@@ -28,13 +27,21 @@ export function makeSonic(pos) {
                this.jumping = false;
             });
          },
-      }
+      }, {
+         pointIndicator(msg) {
+            const txt = k.add([
+               k.text(msg, { size: 40, font: 'mania' }),
+               k.color(255, 255, 0),
+               k.anchor('center'),
+               k.pos(this.pos.x, this.pos.y - 80),
+               k.opacity(1),
+            ]);
+            txt.onUpdate(()=>{
+               txt.move(0, -25);
+               txt.opacity -= 0.008;
+               if (txt.opacity<=0) txt.destroy();
+            });
+         },
+      },
    ]);
-   sonic.ringCollectUI = sonic.add([
-      k.text('', { size: 24, font: 'mania' }),
-      k.color(255, 255, 0),
-      k.anchor('center'),
-      k.pos(30, -10),
-   ]);
-   return sonic;
 }
