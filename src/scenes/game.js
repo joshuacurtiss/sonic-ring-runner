@@ -1,33 +1,8 @@
 import k from '../kaplayCtx';
+import score from '../abilities/score';
 import { makeSonic } from '../entities/sonic';
 import { makeMotobug } from '../entities/motobug';
 import { makeRing } from '../entities/ring';
-
-function score(startScore) {
-   let baseText = '';
-   let _score = startScore;
-   let scoreInt;
-   return {
-      writeScore() {
-         const newScoreInt = Math.floor(_score);
-         if (newScoreInt !== scoreInt) {
-            scoreInt = newScoreInt;
-            this.text = baseText + scoreInt;
-         }
-      },
-      set score(val) {
-         _score = val;
-         this.writeScore();
-      },
-      get score() {
-         return _score;
-      },
-      add() {
-         baseText = this.text;
-         this.writeScore();
-      },
-   }
-}
 
 export default function game() {
    k.setGravity(3100);
