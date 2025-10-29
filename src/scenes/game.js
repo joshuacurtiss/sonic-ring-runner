@@ -94,8 +94,7 @@ export default function game() {
    const spawnRing = ()=>{
       const ring = makeRing(k.vec2(1950, 745));
       ring.onUpdate(()=>{
-         const speed = gameSpeed<3000 ? gameSpeed + 300 : gameSpeed;
-         ring.move(-speed, 0);
+         ring.move(-gameSpeed, 0);
       });
       ring.onExitScreen(()=>{
          if (ring.pos.x<0) ring.destroy();
