@@ -1,4 +1,5 @@
 import k from '../kaplayCtx';
+import destroyOffscreenLeft from '../abilities/destroy-offscreen-left'
 
 export function makeRing(pos) {
    return k.add([
@@ -8,6 +9,7 @@ export function makeRing(pos) {
       k.pos(pos),
       k.anchor('center'),
       k.offscreen(),
+      destroyOffscreenLeft(),
       'ring',
    ]);
 }

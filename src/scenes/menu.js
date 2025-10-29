@@ -19,9 +19,7 @@ export default function mainMenu() {
       k.add([k.sprite('platforms'), k.pos(platformWidth*platformScale, 450), k.scale(platformScale)]),
    ];
    const sonic = makeSonic(k.vec2(bgPieceWidth*2, 745));
-   sonic.onCollide('ring', (r)=>{
-      k.destroy(r);
-   });
+   sonic.onCollide('ring', (r)=>{ k.destroy(r) });
    k.add([
       k.text('SONIC RING RUNNER', { size: 96, font: 'mania' }),
       k.pos(k.center().x, 200),
@@ -48,12 +46,7 @@ export default function mainMenu() {
    });
    const spawnRing = ()=>{
       const ring = makeRing(k.vec2(1950, 745));
-      ring.onUpdate(()=>{
-         ring.move(-gameSpeed, 0);
-      });
-      ring.onExitScreen(()=>{
-         if (ring.pos.x<0) ring.destroy();
-      });
+      ring.onUpdate(()=>{ ring.move(-gameSpeed, 0) });
       k.wait(k.rand(0.5, 3), spawnRing);
    }
    spawnRing();

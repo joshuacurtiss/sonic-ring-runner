@@ -128,20 +128,12 @@ export default function game() {
          const speed = gameSpeed<3000 ? gameSpeed + 300 : gameSpeed;
          motobug.move(-speed, 0);
       });
-      motobug.onExitScreen(()=>{
-         if (motobug.pos.x<0) motobug.destroy();
-      });
       k.wait(k.rand(0.5, 2.5), spawnMotobug);
    }
    spawnMotobug();
    const spawnRing = ()=>{
       const ring = makeRing(k.vec2(1950, 745));
-      ring.onUpdate(()=>{
-         ring.move(-gameSpeed, 0);
-      });
-      ring.onExitScreen(()=>{
-         if (ring.pos.x<0) ring.destroy();
-      });
+      ring.onUpdate(()=>{ ring.move(-gameSpeed, 0) });
       k.wait(k.rand(0.5, 3), spawnRing);
    }
    spawnRing();
