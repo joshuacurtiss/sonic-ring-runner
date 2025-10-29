@@ -1,12 +1,17 @@
 import k from '../kaplayCtx'
 
 export default function gameOver(citySfx) {
-   citySfx.paused = true;
-   const currentScore = k.getData('current-score') || 0;
-   let bestScore = k.getData('best-score') || 0;
+   if (citySfx) citySfx.paused = true;
+
+   const currentDistance = Math.ceil(k.getData('current-distance') || 0);
+   let bestDistance = Math.ceil(k.getData('best-distance') || 0);
+   const currentScore = Math.ceil(k.getData('current-score') || 0);
+   let bestScore = Math.ceil(k.getData('best-score') || 0);
    if (currentScore>bestScore) {
       k.setData('best-score', currentScore);
       bestScore = currentScore;
+      k.setData('best-distance', currentDistance);
+      bestDistance = currentDistance;
    }
 
    const rankGrades = [ 'F', 'E', 'D', 'C', 'B', 'A', 'S' ];
@@ -22,16 +27,26 @@ export default function gameOver(citySfx) {
 
    k.add([
       k.text('GAME OVER', { size: 96, font: 'mania' }),
-      k.pos(k.center().x, k.center().y - 300),
+      k.pos(k.center().x, k.center().y - 400),
       k.anchor('center'),
    ]);
    k.add([
       k.text(`BEST SCORE: ${bestScore}`, { size: 64, font: 'mania' }),
       k.anchor('center'),
+      k.pos(k.center().x - 400, k.center().y - 280),
+   ]);
+   k.add([
+      k.text(`DISTANCE: ${bestDistance}m`, { size: 64, font: 'mania' }),
+      k.anchor('center'),
       k.pos(k.center().x - 400, k.center().y - 200),
    ]);
    k.add([
       k.text(`CURRENT SCORE: ${currentScore}`, { size: 64, font: 'mania' }),
+      k.anchor('center'),
+      k.pos(k.center().x + 400, k.center().y - 280),
+   ]);
+   k.add([
+      k.text(`DISTANCE: ${currentDistance}m`, { size: 64, font: 'mania' }),
       k.anchor('center'),
       k.pos(k.center().x + 400, k.center().y - 200),
    ]);
