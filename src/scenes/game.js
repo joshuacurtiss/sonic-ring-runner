@@ -35,9 +35,13 @@ export default function game() {
          k.play('hyper-ring', { volume: 0.5 });
          k.destroy(e);
          sonic.play('jump');
-         // Consider the variable jump done since this is a bounce off enemy
-         sonic.endVariableJump();
-         sonic.jump();
+         // Consider the variable jump done if bouncing without jump button held
+         if (!k.isButtonDown('jump')) {
+            sonic.endVariableJump();
+            sonic.jump(1000); // Less force when just a "bounce"
+         } else {
+            sonic.jump();
+         }
          const scoreInc = 25 * ++scoreMultiplier;
          scoreText.score += scoreInc;
          makeMessage(sonic.pos.sub(0, 80), `+${scoreInc}`);
